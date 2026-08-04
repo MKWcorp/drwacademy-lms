@@ -6,6 +6,7 @@
 <?php if($user_id > 0){$user_details = $this->user_model->get_all_user($user_id)->row_array();} ?>
 <header>
   <!-- Sub Header Start -->
+  <?php if ($page_name != 'login'): ?>
   <div class="sub-header">
     <div class="container">
       <div class="row">
@@ -67,6 +68,7 @@
       </div>
     </div>
   </div>
+  <?php endif; ?>
   <!---- Sub Header End ------>
   
   <section class="menubar">
