@@ -7,12 +7,14 @@
     
     <!-- Mobile Offcanves  Icon Show -->
     <ul class="menu-offcanves">
+      <?php if ($page_name != 'login'): ?>
       <li>
         <div class="search-item">
           <span class="m-cross-icon"><i class="fa-solid fa-xmark"></i></span>
           <span class="m-search-icon"> <i class="fa-solid fa-magnifying-glass"></i></span>
         </div>
       </li>
+      <?php endif; ?>
       <li>
         <a href="#" class="btn-bar" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasWithBothOptions" aria-controls="offcanvasWithBothOptions"><i class="fa-sharp fa-solid fa-bars"></i></a>
       </li>
