@@ -3,7 +3,7 @@
 <?php endif; ?>
 
 <!---------- Header Section End  ---------->
-    <section class="sign-up my-0 mt-3">
+    <section class="sign-up my-0 mt-0">
         <div class="container">
             <div class="row">
                 <div class="col-lg-7 col-md-6 d-none d-md-block text-center">
@@ -12,7 +12,7 @@
                 <div class="col-lg-5 col-md-6 col-sm-12 col-12 ">
                     <div class="sing-up-right">
                         <h3><?php echo get_phrase('Log In'); ?><span>!</span></h3>
-                        <p><?php echo get_phrase('Explore, learn, and grow with us. Enjoy a seamless and enriching educational journey. Lets begin!') ?></p>
+                        <p>Jelajahi, belajar, dan berkembang bersama kami. Nikmati perjalanan edukasi yang menyenangkan. Ayo mulai!</p>
 
                         <form action="<?php echo site_url('login/validate_login') ?>" method="post">
                             <div class="mb-4">
