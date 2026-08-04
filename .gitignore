@@ -24,3 +24,8 @@ application/logs/*
 # Certificate — abaikan hasil generate, simpan hanya template
 uploads/certificates/*
 !uploads/certificates/template.jpg
+
+# Docker
+Dockerfile
+docker-compose.yml
+docker-compose.prod.yml
