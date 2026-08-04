@@ -10,6 +10,6 @@
     "course_thumbnail" : "400 X 250"
   },
   "course_media_placeholders" : {
-    "course_thumbnail_placeholder" : "assets/frontend/default-new/img/course_thumbnail_placeholder.jpg"
+    "course_thumbnail_placeholder" : "assets/frontend/default-new/img/course_thumbnail_placeholder.png"
   }
 }
