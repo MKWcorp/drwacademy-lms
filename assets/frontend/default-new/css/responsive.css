@@ -523,14 +523,6 @@ strong{
   .course-decription-3 .course-left-side {
     margin-top: 50px;
   }
-    .icon.icon-left {
-        display: flex;
-        justify-content: center;
-      }
-      .icon.right-icon {
-        display: flex;
-        justify-content: center;
-      }
       .h-1-banner .bannar-card {
         position: static;
         margin-top: 57px;     
@@ -804,15 +796,7 @@ strong{
   .courses-details-3 .courses-details-1st-text {
     padding-bottom: 118px;
   }
-    .icon.icon-left {
-        display: flex;
-        justify-content: center;
-      }
-      .icon.right-icon {
-        display: flex;
-        justify-content: center;
-      }
-      .h-1-banner .bannar-card {
+    .h-1-banner .bannar-card {
         position: static;
         margin-top: 57px;     
     } 
@@ -978,9 +962,34 @@ strong{
  
 
   }
+  @media all and (max-width: 767px) {
+    .sub-header {
+      padding: 5px 0;
+    }
+    .sub-header .icon-left i {
+      padding: 5px;
+      font-size: 14px;
+    }
+    .sub-header .right-icon i {
+      padding: 6px;
+      font-size: 14px;
+    }
+    .sub-header .icon a {
+      font-size: 12px;
+    }
+    .sub-header .right-icon .language-control .nice-select {
+      height: 22px;
+      width: 70px;
+      font-size: 10px;
+      padding: 1px 5px;
+    }
+    .sub-header .vartical {
+      margin: 0 2px;
+    }
+  }
   @media all and (max-width: 500px) { 
     .sub-header  .icon-left .nav{
-      justify-content: center;
+      justify-content: flex-start;
     }
     .menu_pro_tgl_bg {
       right: 0;
@@ -1104,14 +1113,6 @@ strong{
   .courses-details-3 .courses-details-1st-text {
     padding-bottom: 83px;
   }
-    .icon.icon-left {
-        display: flex;
-        justify-content: center;
-      }
-      .icon.right-icon {
-        display: flex;
-        justify-content: center;
-      }
       .h-1-banner .h-1-banner-text h1 {
         margin-top: 29px;
       }

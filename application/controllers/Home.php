@@ -76,6 +76,9 @@ class Home extends CI_Controller
 
     public function home()
     {
+        if (is_mobile()) {
+            redirect(site_url('mobile'), 'refresh');
+        }
         $page_data['page_name'] = "home";
         $page_data['page_title'] = site_phrase('home');
         $this->load->view('frontend/' . get_frontend_settings('theme') . '/index', $page_data);

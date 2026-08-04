@@ -1,6 +1,7 @@
 <div class="mobile-view-offcanves">
   <div class="offcanvas offcanvas-start bg-light" data-bs-scroll="true" tabindex="-1" id="offcanvasWithBothOptions" aria-labelledby="offcanvasWithBothOptionsLabel">
     <div class="offcanves-top">
+      <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
       <?php if($user_id > 0): ?>
         <div class="offcanves-profile">
           <a href="#">
@@ -14,12 +15,9 @@
           </a>
         </div>
       <?php else: ?>
-        <div class="offcanvas-header bg-light">
-          <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-          <div class="offcanves-btn">
-            <a href="<?php echo site_url('sign_up'); ?>" class="signUp-btn"><?php echo get_phrase('Sign Up'); ?></a>
-            <a href="<?php echo site_url('login'); ?>" class="logIn-btn"><?php echo get_phrase('Login'); ?></a>
-          </div>
+        <div class="offcanves-btn">
+          <a href="<?php echo site_url('sign_up'); ?>" class="signUp-btn"><?php echo get_phrase('Sign Up'); ?></a>
+          <a href="<?php echo site_url('login'); ?>" class="logIn-btn"><?php echo get_phrase('Login'); ?></a>
         </div>
       <?php endif; ?>
     </div>

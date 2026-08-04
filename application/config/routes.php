@@ -94,4 +94,17 @@ $route['schedules_bookings/(:any)'] = "addons/tutor_booking/tutor_details/$1";
 $route['my_bookings'] = "addons/tutor_booking/booked_schedules_student";
 //End tutor booking
 
+// Mobile App Routes
+$route['mobile']                      = 'mobile/index';
+$route['mobile/kategori/(:any)']      = 'mobile/category/$1';
+$route['mobile/kelas/(:num)']         = 'mobile/course/$1';
+$route['mobile/nonton/(:num)']        = 'mobile/watch/$1';
+$route['mobile/quiz/(:num)']          = 'mobile/quiz/$1';
+$route['mobile/kelas-saya']           = 'mobile/my_courses';
+$route['mobile/profil']               = 'mobile/profile';
+$route['mobile/enroll/(:num)']        = 'mobile/enroll/$1';
+$route['mobile/mark-complete']        = 'mobile/mark_complete';
+$route['mobile/debug-login']          = 'mobile/debug_login';
+// End Mobile App Routes
+
 $route['translate_uri_dashes'] = FALSE;

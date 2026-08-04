@@ -763,7 +763,7 @@ class User_model extends CI_Model
             if ($this->session->userdata('admin_login')) {
                 redirect(site_url('admin'), 'refresh');
             } elseif ($this->session->userdata('user_login')) {
-                redirect(site_url('home/my_courses'), 'refresh');
+                redirect(site_url('home'), 'refresh');
             }
         }
     }

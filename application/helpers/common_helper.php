@@ -686,6 +686,39 @@ if (!function_exists('get_lesson_type')) {
     }
 }
 
+if (!function_exists('is_mobile')) {
+    function is_mobile()
+    {
+        if (isset($_SERVER['HTTP_USER_AGENT'])) {
+            $agent = strtolower($_SERVER['HTTP_USER_AGENT']);
+        } elseif (isset($_SERVER['HTTP_X_OPERAMINI_PHONE_UA'])) {
+            $agent = strtolower($_SERVER['HTTP_X_OPERAMINI_PHONE_UA']);
+        } else {
+            $agent = '';
+        }
+
+        $mobile_agents = array(
+            'android', 'webos', 'iphone', 'ipad', 'ipod', 'blackberry',
+            'windows phone', 'opera mini', 'iemobile', 'mobile',
+            'nokia', 'samsung', 'lg-', 'mot-', 'htc', 'sony',
+            'ericsson', 'huawei', 'xiaomi', 'oppo', 'vivo', 'realme',
+            'infinix', 'tecno', 'pixel [2-9]', 'nexus', 'kindle'
+        );
+
+        foreach ($mobile_agents as $device) {
+            if (strpos($agent, $device) !== false) {
+                return true;
+            }
+        }
+
+        // Check for mobile viewport width (responsive test)
+        if (isset($_GET['mobile_view']) && $_GET['mobile_view'] == '1') {
+            return true;
+        }
+
+        return false;
+    }
+}
 
 // ------------------------------------------------------------------------
 /* End of file common_helper.php */
