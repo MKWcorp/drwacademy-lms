@@ -1,7 +1,7 @@
 <?php $header_menu_counter = 0; ?>
 <nav class="navbar navbar-expand-lg navbar-light">
   <div class="container">
-    <a class="navbar-brand logo pt-0" href="<?php echo site_url(); ?>">
+    <a class="navbar-brand logo pt-0" href="<?php echo site_url('home'); ?>">
       <img loading="lazy" src="<?php echo site_url('uploads/system/'.get_frontend_settings('dark_logo')) ?>" alt="Logo" />
     </a>
     
