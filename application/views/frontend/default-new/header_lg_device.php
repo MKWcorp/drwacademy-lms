@@ -149,6 +149,7 @@
       <?php endif; ?>
 
 
+      <?php if ($page_name != 'login'): ?>
       <?php if($header_menu_counter > 3): ?>
         <form class="search-input-form" action="<?php echo site_url('home/courses'); ?>" method="get">
           <div class="dropdown">
@@ -292,7 +293,8 @@
 
 
                                   <li class="user-dropdown-menu-item"><a href="<?php echo site_url('addons/affiliate_course/affiliate_course_history '); ?>"><i class="fa fa-book"></i><?php echo site_phrase('Affiliation History'); ?></a></li>
-                              <?php endif; ?>
+      <?php endif; // header_menu_counter ?>
+      <?php endif; // page_name != login ?>
                           <?php endif; ?>
                       <?php endif; ?>
                       <?php if (addon_status('customer_support')) : ?>
@@ -337,12 +339,14 @@
     </div>
 
     <!-- Mobile Device Form -->
+    <?php if ($page_name != 'login'): ?>
     <form action="<?php echo site_url('home/courses'); ?>" method="get" class="inline-form">
       <div class="mobile-search test">
         <button type="submit" class="search-btn"><i class="fa-solid fa-magnifying-glass"></i></button>
         <input value="<?php echo isset($_GET['query']) ? $_GET['query']:''; ?>" name="query" class="form-control" type="text" placeholder="<?php echo get_phrase('Search'); ?>" />
       </div>
     </form>
+    <?php endif; ?>
 
   </div>
 </nav>
