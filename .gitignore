@@ -3,3 +3,24 @@ uploads/install.sql
 .env
 .env.local
 .env.*.local
+
+# Composer
+/vendor/
+
+# macOS
+.DS_Store
+
+# IDE
+.idea/
+.vscode/
+*.sublime-*
+
+# CodeIgniter
+application/cache/*
+!application/cache/index.html
+application/logs/*
+!application/logs/index.html
+
+# Certificate — abaikan hasil generate, simpan hanya template
+uploads/certificates/*
+!uploads/certificates/template.jpg
