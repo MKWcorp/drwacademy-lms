@@ -1389,4 +1389,8 @@ strong{
   .grid-view-body p{
     margin-left: 0;
   }
+  .login-tabs .nav-link {
+    padding: 10px 14px;
+    font-size: 13px;
+  }
  }

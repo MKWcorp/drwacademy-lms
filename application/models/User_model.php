@@ -824,6 +824,58 @@ class User_model extends CI_Model
     }
     /*END LOGIN LOGOUT AND DEVICE ALLOW SECTION*/
 
+    // Reseller ID (id_bc) login
+    public function get_user_by_reseller_id($id_reseller = '')
+    {
+        return $this->db->get_where('users', array('id_bc' => $id_reseller));
+    }
+
+    public function create_user_from_reseller($reseller = array())
+    {
+        $nama = isset($reseller['nama']) ? $reseller['nama'] : '';
+        $name_parts = explode(' ', $nama, 2);
+        $first_name = $name_parts[0];
+        $last_name = isset($name_parts[1]) ? $name_parts[1] : '';
+
+        $email = isset($reseller['email']) ? $reseller['email'] : '';
+        $phone = isset($reseller['hp']) ? $reseller['hp'] : '';
+        $id_reseller = isset($reseller['uid']) ? $reseller['uid'] : '';
+
+        $existing = $this->db->get_where('users', array('email' => $email));
+        if ($existing->num_rows() > 0) {
+            $user = $existing->row();
+            $this->db->where('id', $user->id);
+            $this->db->update('users', array('id_bc' => $id_reseller));
+            return $user->id;
+        }
+
+        $data = array();
+        $data['first_name'] = $first_name;
+        $data['last_name'] = $last_name;
+        $data['email'] = $email;
+        $data['password'] = sha1($phone);
+        $data['phone'] = $phone;
+        $data['id_bc'] = $id_reseller;
+        $data['role_id'] = 2;
+        $data['status'] = 1;
+        $data['date_added'] = strtotime(date("Y-m-d H:i:s"));
+        $data['wishlist'] = json_encode(array());
+        $data['social_links'] = json_encode(array('facebook' => '', 'twitter' => '', 'linkedin' => ''));
+        $data['image'] = md5(rand(10000, 10000000));
+        $data['payment_keys'] = json_encode(array());
+
+        $this->db->insert('users', $data);
+        return $this->db->insert_id();
+    }
+
+    public function normalize_phone($phone)
+    {
+        $phone = preg_replace('/[^0-9]/', '', $phone);
+        if (strlen($phone) > 2 && substr($phone, 0, 2) == '62') {
+            $phone = '0' . substr($phone, 2);
+        }
+        return $phone;
+    }
 
    /* function update_unique_identifier($user_id = ""){
         $data['unique_identifier'] = $user_id.strtolower(random(10));

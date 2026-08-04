@@ -69,6 +69,77 @@ class Login extends CI_Controller
         }
     }
 
+    public function validate_reseller_login()
+    {
+        $id_reseller = trim($this->input->post('id_reseller'));
+        $nomor_hp = trim($this->input->post('nomor_hp'));
+
+        $this->session->set_flashdata('reseller_id_reseller', $id_reseller);
+        $this->session->set_flashdata('reseller_nomor_hp', $nomor_hp);
+        $this->session->set_flashdata('login_form_mode', 'reseller');
+
+        if (empty($id_reseller)) {
+            $this->session->set_flashdata('error_message', 'ID Reseller tidak boleh kosong');
+            redirect(site_url('login'), 'refresh');
+        }
+
+        if (empty($nomor_hp)) {
+            $this->session->set_flashdata('error_message', 'Nomor HP tidak boleh kosong');
+            redirect(site_url('login'), 'refresh');
+        }
+
+        $api_url = 'https://api.drwapp.com/v1/customer?search=' . urlencode($id_reseller) . '&has_pos_level=1&has_pos_name=1&akun=active';
+        $response = $this->fetch_api($api_url);
+
+        if ($response === false) {
+            $this->session->set_flashdata('error_message', 'Layanan ID Reseller sedang tidak tersedia. Silakan login dengan email.');
+            redirect(site_url('login'), 'refresh');
+        }
+
+        $data = json_decode($response, true);
+
+        if (!$data || !isset($data['data']) || empty($data['data'])) {
+            $this->session->set_flashdata('error_message', 'ID Reseller tidak ditemukan');
+            redirect(site_url('login'), 'refresh');
+        }
+
+        $matched = null;
+        $normalized_input = $this->user_model->normalize_phone($nomor_hp);
+        foreach ($data['data'] as $customer) {
+            if ($this->user_model->normalize_phone($customer['hp']) === $normalized_input) {
+                $matched = $customer;
+                break;
+            }
+        }
+
+        if (!$matched) {
+            $this->session->set_flashdata('error_message', 'Nomor HP tidak sesuai dengan ID Reseller');
+            redirect(site_url('login'), 'refresh');
+        }
+
+        $id_reseller = $matched['uid'];
+
+        $user = $this->user_model->get_user_by_reseller_id($id_reseller);
+
+        if ($user->num_rows() > 0) {
+            $row = $user->row();
+            $this->session->set_flashdata('login_form_mode', null);
+            $this->user_model->new_device_login_tracker($row->id);
+            $this->user_model->set_login_userdata($row->id);
+        } else {
+            $user_id = $this->user_model->create_user_from_reseller($matched);
+
+            if ($user_id) {
+                $this->session->set_flashdata('login_form_mode', null);
+                $this->user_model->new_device_login_tracker($user_id);
+                $this->user_model->set_login_userdata($user_id);
+            } else {
+                $this->session->set_flashdata('error_message', 'Gagal membuat akun. Silakan coba lagi.');
+                redirect(site_url('login'), 'refresh');
+            }
+        }
+    }
+
     function new_login_confirmation($param1 = ""){
         $new_device_code_expiration_time = $this->session->userdata('new_device_code_expiration_time');
         if(!$new_device_code_expiration_time || $new_device_code_expiration_time < (time())){
@@ -422,6 +493,23 @@ class Login extends CI_Controller
         } else {
             redirect(site_url('user'), 'refresh');
         }
+    }
+
+    private function fetch_api($url)
+    {
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_TIMEOUT, 10);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        $response = curl_exec($ch);
+        $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        curl_close($ch);
+
+        if ($http_code != 200) {
+            return false;
+        }
+        return $response;
     }
 
 }

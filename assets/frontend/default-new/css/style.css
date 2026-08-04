@@ -3880,8 +3880,38 @@ Sign Up Page
   color: #754FFE;
 }
 .sing-up-right p{
-  margin-bottom: 51px;
+  margin-bottom: 40px;
   word-spacing: 1.5px;
+}
+/* Login method tabs */
+.sing-up-right .login-tabs {
+  gap: 8px;
+}
+.sing-up-right .login-tabs .nav-link {
+  border-radius: 10px;
+  padding: 12px 20px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #6E798A;
+  background: #f3f1fa;
+  border: none;
+  transition: all 0.2s ease;
+}
+.sing-up-right .login-tabs .nav-link i {
+  position: static;
+  left: auto;
+  top: auto;
+  font-size: 14px;
+  color: inherit;
+}
+.sing-up-right .login-tabs .nav-link:hover {
+  color: #754FFE;
+  background: #eae5ff;
+}
+.sing-up-right .login-tabs .nav-link.active {
+  background: #754FFE;
+  color: #fff;
+  box-shadow: 0 2px 10px rgba(117, 79, 254, 0.2);
 }
 .sing-up-right  h5{
   font-size: 16px;
