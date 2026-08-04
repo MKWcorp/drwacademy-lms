@@ -3,7 +3,7 @@
 <?php endif; ?>
 
 <!---------- Header Section End  ---------->
-    <section class="sign-up my-5 pt-5">
+    <section class="sign-up my-0 mt-3">
         <div class="container">
             <div class="row">
                 <div class="col-lg-7 col-md-6 d-none d-md-block text-center">
