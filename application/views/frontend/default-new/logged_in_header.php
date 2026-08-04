@@ -39,7 +39,7 @@
         <nav class="navbar navbar-expand-lg navbar-light">
             <div class="container">
                 <!-- <a class="navbar-brand logo" href="#"><img loading="lazy" src="<?php// echo base_url('uploads/system/'.get_frontend_settings('dark_logo')); ?>" alt=""></a> -->
-                <a class="navbar-brand logo" href="<?php echo site_url(''); ?>"><img loading="lazy" src="<?php echo base_url('assets/frontend/default-new/image/logo.png')?>" alt=""></a>
+                <a class="navbar-brand logo" href="<?php echo site_url(''); ?>"><img loading="lazy" src="<?php echo base_url('uploads/system/favicon.png')?>" alt=""></a>
                 <!-- Mobile Offcanves  Icon Show -->
                 <ul class="menu-offcanves">
                 <li>
