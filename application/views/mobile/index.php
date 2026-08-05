@@ -7,7 +7,7 @@
 	<title><?php echo get_settings('system_name'); ?></title>
 
 	<?php include 'includes_top.php'; ?>
-	<link rel="stylesheet" href="<?php echo site_url('assets/playing-page/css/mobile-app.css'); ?>">
+	<link rel="stylesheet" href="<?php echo site_url('assets/playing-page/css/mobile-app.css'); ?>?v=<?php echo filemtime(FCPATH . 'assets/playing-page/css/mobile-app.css'); ?>">
 </head>
 <body class="<?php echo isset($body_class) ? $body_class : ''; ?>">
 
@@ -69,6 +69,6 @@
 	<script>
 		var baseUrl = '<?php echo site_url(); ?>';
 	</script>
-	<script src="<?php echo site_url('assets/playing-page/js/mobile-app.js'); ?>"></script>
+	<script src="<?php echo site_url('assets/playing-page/js/mobile-app.js'); ?>?v=<?php echo filemtime(FCPATH . 'assets/playing-page/js/mobile-app.js'); ?>"></script>
 </body>
 </html>

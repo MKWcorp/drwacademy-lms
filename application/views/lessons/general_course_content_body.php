@@ -15,23 +15,20 @@ $get_lesson_type = get_lesson_type($lesson_details['id']);
 	<?php include "plyr_config.php"; ?>
 <?php elseif ($get_lesson_type == 'google_drive_video_url') : ?>
 	<?php
-	$url_array_1 = explode("/", $lesson_details['video_url'] . '/');
-	$url_array_2 = explode("=", $lesson_details['video_url']);
+	$video_url = $lesson_details['video_url'];
 	$video_id = null;
-	if ($url_array_1[4] == 'd') :
-		$video_id = $url_array_1[5];
-	else :
-		$video_id = $url_array_2[1];
+	if (preg_match('/\/d\/([a-zA-Z0-9_-]+)/', $video_url, $matches)) :
+		$video_id = $matches[1];
+	elseif (preg_match('/[?&]id=([a-zA-Z0-9_-]+)/', $video_url, $matches)) :
+		$video_id = $matches[1];
 	endif; ?>
+	<?php if ($video_id) : ?>
 	<div class="p-3 <?php if ($full_page) echo 'bg-black'; ?>">
-		<video id="player" playsinline controls>
-			<source class="remove_video_src" src="https://www.googleapis.com/drive/v3/files/<?php echo $video_id; ?>?alt=media&key=<?php echo get_settings('youtube_api_key'); ?>" type="video/mp4">
-			<?php if ($lesson_details['caption'] != "" && file_exists('uploads/captions/' . $lesson_details['caption'])) : ?>
-				<track kind="captions" label="Caption" src="<?php echo base_url('uploads/captions/' . $lesson_details['caption']); ?>" srclang="en" default />
-			<?php endif; ?>
-		</video>
+		<iframe src="https://drive.google.com/file/d/<?php echo $video_id; ?>/preview"
+			style="width:100%;height:56.25vw;min-height:360px;max-height:600px;border:0;display:block;"
+			allowfullscreen allow="autoplay"></iframe>
 	</div>
-	<?php include "plyr_config.php"; ?>
+	<?php endif; ?>
 <?php elseif ($get_lesson_type == 'vimeo_video_url') : ?>
 	<?php $video_details = $this->video_model->getVideoDetails($lesson_details['video_url']);
 	$video_id = $video_details['video_id']; ?>

@@ -62,6 +62,16 @@ if ($lesson['lesson_type'] == 'video') {
 					frameborder="0" allowfullscreen></iframe>
 			</div>
 			<?php endif; ?>
+		<?php elseif (strpos($video_url, 'drive.google.com') !== false): ?>
+			<?php
+			preg_match('/\/d\/([a-zA-Z0-9_-]+)/', $video_url, $matches);
+			$drive_id = $matches[1] ?? '';
+			?>
+			<?php if ($drive_id): ?>
+			<iframe src="https://drive.google.com/file/d/<?php echo $drive_id; ?>/preview"
+				style="width:100%;height:56.25vw;min-height:340px;max-height:520px;border:0;display:block;"
+				allowfullscreen></iframe>
+			<?php endif; ?>
 		<?php else: ?>
 			<video controls playsinline preload="metadata"
 				onended="markComplete(<?php echo $lesson_id; ?>, <?php echo $course['id']; ?>)"

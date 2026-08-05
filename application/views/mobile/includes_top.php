@@ -4,7 +4,7 @@
 <!-- Animation CSS -->
 <link rel="stylesheet" href="<?php echo site_url('assets/playing-page/') ?>css/animate.min.css" />
 <!-- Main CSS -->
-<link href="<?php echo site_url('assets/playing-page/') ?>css/style.css" rel="stylesheet" />
+<link href="<?php echo site_url('assets/playing-page/') ?>css/style.css?v=<?php echo filemtime(FCPATH . 'assets/playing-page/css/style.css'); ?>" rel="stylesheet" />
 
 <?php if(addon_status('certificate')): ?>
 	<!-- Progress Bar Css -->
