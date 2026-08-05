@@ -548,7 +548,7 @@ if (!function_exists('course_progress')) {
         $watch_history = $CI->crud_model->get_watch_histories($user_id, $course_id)->row_array();
 
         if ($return_type == "completed_lesson_ids") {
-            return json_decode($watch_history['completed_lesson']);
+            return json_decode($watch_history['completed_lesson'], true);
         }
         if(is_array($watch_history) && $watch_history['course_progress'] > 0){
             return $watch_history['course_progress'];

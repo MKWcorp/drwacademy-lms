@@ -26,7 +26,7 @@ $user = $this->user_model->get_all_user($user_id)->row_array();
 		</a>
 	<?php endif; ?>
 
-	<a href="<?php echo site_url('home/profile/user_profile'); ?>">
+	<a href="<?php echo site_url('mobile/pengaturan'); ?>">
 		<span class="menu-icon">⚙️</span>
 		Pengaturan
 		<span class="menu-arrow">›</span>

@@ -18,7 +18,7 @@ $enrolled = $this->db
 		<a href="<?php echo site_url('mobile'); ?>" class="btn-primary">Jelajahi Kelas</a>
 	</div>
 <?php else: ?>
-	<div class="course-list">
+	<div class="course-feature-grid">
 		<?php foreach ($enrolled as $enrol):
 			$course = $this->crud_model->get_course_by_id($enrol['course_id'])->row_array();
 			if (!$course || $course['status'] != 'active') continue;
@@ -26,23 +26,21 @@ $enrolled = $this->db
 			$total_lessons = $this->db->get_where('lesson', array('course_id' => $enrol['course_id']))->num_rows();
 			$enroll_status = enroll_status($enrol['course_id'], $user_id);
 			?>
-			<a href="<?php echo site_url('mobile/kelas/' . $course['id']); ?>" class="course-card">
-				<img class="course-card-img"
-					src="<?php echo $this->crud_model->get_course_thumbnail_url($course['id']); ?>"
+			<a href="<?php echo site_url('mobile/kelas/' . $course['id']); ?>" class="course-feature-card">
+				<img src="<?php echo $this->crud_model->get_course_thumbnail_url($course['id']); ?>"
 					alt="<?php echo $course['title']; ?>"
 					onerror="this.src='<?php echo base_url('uploads/thumbnails/course_thumbnails/placeholder.png'); ?>'" />
-				<div class="course-card-body">
-					<div class="course-title"><?php echo $course['title']; ?></div>
+				<div class="feature-body">
+					<div class="feature-title"><?php echo $course['title']; ?></div>
 					<div class="progress-bar-wrap">
 						<div class="progress-bar-fill" style="width: <?php echo $progress; ?>%;"></div>
 					</div>
-					<div class="course-card-meta">
-						<span><?php echo round($progress); ?>% selesai</span>
-						<span><?php echo $total_lessons; ?> materi</span>
+					<div class="feature-meta">
+						<?php echo round($progress); ?>% · <?php echo $total_lessons; ?> materi
 						<?php if ($enroll_status == 'expired'): ?>
-							<span style="color:#DC3545;">Kadaluarsa</span>
+							· <span style="color:#DC3545;">Kadaluarsa</span>
 						<?php elseif ($progress >= 100): ?>
-							<span style="color:var(--success);">🏆 Lulus</span>
+							· <span style="color:var(--success);">🏆 Lulus</span>
 						<?php endif; ?>
 					</div>
 				</div>

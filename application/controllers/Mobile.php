@@ -101,6 +101,13 @@ class Mobile extends CI_Controller
             redirect(site_url('mobile/kelas/' . $lesson['course_id']), 'refresh');
         }
 
+        // Auto-mark as complete when user opens lesson (only if not yet completed)
+        $completed_ids = course_progress($lesson['course_id'], $user_id, 'completed_lesson_ids');
+        if (!is_array($completed_ids)) $completed_ids = array();
+        if (!in_array(strval($lesson_id), $completed_ids)) {
+            $this->crud_model->update_watch_history_manually($lesson_id, $lesson['course_id'], $user_id);
+        }
+
         $page_data['page_name'] = 'watch';
         $page_data['lesson_id'] = $lesson_id;
         $page_data['show_back'] = true;
@@ -144,6 +151,36 @@ class Mobile extends CI_Controller
         $page_data['page_name'] = 'profile';
         $page_data['show_back'] = false;
         $page_data['page_title'] = 'Profil';
+        $this->load->view('mobile/index', $page_data);
+    }
+
+    // ========== PENGATURAN ==========
+    public function pengaturan()
+    {
+        $user_id = $this->session->userdata('user_id');
+        if (!$user_id) {
+            redirect(site_url('login'), 'refresh');
+        }
+        $page_data['page_name'] = 'pengaturan';
+        $page_data['show_back'] = true;
+        $page_data['page_title'] = 'Pengaturan';
+        $page_data['body_class'] = 'page-pengaturan';
+        $this->load->view('mobile/index', $page_data);
+    }
+
+    // ========== SEARCH ==========
+    public function cari()
+    {
+        $q = $this->input->get('q');
+        if (empty($q)) {
+            redirect(site_url('mobile'), 'refresh');
+        }
+
+        $page_data['search_query'] = $q;
+        $page_data['courses'] = $this->crud_model->get_courses_by_search_string($q)->result_array();
+        $page_data['page_name'] = 'cari';
+        $page_data['show_back'] = true;
+        $page_data['page_title'] = 'Hasil Pencarian';
         $this->load->view('mobile/index', $page_data);
     }
 

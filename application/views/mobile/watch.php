@@ -103,16 +103,10 @@ if ($lesson['lesson_type'] == 'video') {
 	</div>
 </div>
 
-<?php if ($is_completed && isset($video_url) && strpos($video_url, 'youtube.com') === false && strpos($video_url, 'vimeo.com') === false): ?>
+<?php if ($is_completed): ?>
 	<a href="javascript:void(0)" class="btn-outline" onclick="markComplete(<?php echo $lesson_id; ?>, <?php echo $course['id']; ?>)">
 		↩️ Tandai Belum Selesai
 	</a>
-<?php elseif (!$is_completed && !empty($video_url)): ?>
-	<?php if (strpos($video_url, 'youtube.com') !== false || strpos($video_url, 'youtu.be') !== false || strpos($video_url, 'vimeo.com') !== false || strpos($video_url, 'drive.google.com') !== false): ?>
-	<button class="btn-mark-done" onclick="markComplete(<?php echo $lesson_id; ?>, <?php echo $course['id']; ?>)">
-		✅ Tandai Selesai
-	</button>
-	<?php endif; ?>
 <?php endif; ?>
 
 <div class="video-nav">

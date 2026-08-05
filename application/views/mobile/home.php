@@ -46,32 +46,29 @@
 
 <!-- All Courses -->
 <div class="section-title">Semua Kelas</div>
-<div class="course-list">
+<div class="course-feature-grid">
 	<?php
 	$all_courses = $this->db->where('status', 'active')->order_by('id', 'DESC')->limit(20)->get('course')->result_array();
 	foreach ($all_courses as $course):
 		$total_lessons = $this->db->get_where('lesson', array('course_id' => $course['id']))->num_rows();
 		?>
-		<a href="<?php echo site_url('mobile/kelas/' . $course['id']); ?>" class="course-card">
-			<img class="course-card-img"
-				src="<?php echo $this->crud_model->get_course_thumbnail_url($course['id']); ?>"
+		<a href="<?php echo site_url('mobile/kelas/' . $course['id']); ?>" class="course-feature-card">
+			<img src="<?php echo $this->crud_model->get_course_thumbnail_url($course['id']); ?>"
 				alt="<?php echo $course['title']; ?>"
 				onerror="this.src='<?php echo base_url('uploads/thumbnails/course_thumbnails/placeholder.png'); ?>'" />
-			<div class="course-card-body">
-				<div class="course-title"><?php echo $course['title']; ?></div>
-				<div class="course-card-meta">
-					<span>📹 <?php echo $total_lessons; ?> video</span>
-					<?php if (!empty($course['level'])): ?>
-						<span><?php echo $course['level']; ?></span>
+
+			<div class="feature-body">
+				<div class="feature-title"><?php echo $course['title']; ?></div>
+				<div class="feature-meta">
+					<?php echo $total_lessons; ?> video
+					<?php if ($course['is_free_course'] == 1): ?>
+						· <span style="color:var(--success);font-weight:600;">GRATIS</span>
+					<?php elseif ($course['discount_flag'] == 1): ?>
+						· Rp <?php echo number_format($course['discounted_price'], 0, ',', '.'); ?>
+					<?php else: ?>
+						· Rp <?php echo number_format($course['price'], 0, ',', '.'); ?>
 					<?php endif; ?>
 				</div>
-				<?php if ($course['is_free_course'] == 1): ?>
-					<div class="course-card-price free">Gratis</div>
-				<?php elseif ($course['discount_flag'] == 1): ?>
-					<div class="course-card-price">Rp <?php echo number_format($course['discounted_price'], 0, ',', '.'); ?></div>
-				<?php else: ?>
-					<div class="course-card-price">Rp <?php echo number_format($course['price'], 0, ',', '.'); ?></div>
-				<?php endif; ?>
 			</div>
 		</a>
 	<?php endforeach; ?>
