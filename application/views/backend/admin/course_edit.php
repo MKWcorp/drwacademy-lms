@@ -615,6 +615,37 @@ $course_details = $this->crud_model->get_course_by_id($course_id)->row_array();
                                                     </div>
                                                 </div>
                                                 <hr>
+
+                                                <div class="form-group row mb-3">
+                                                    <div class="offset-md-2 col-md-10">
+                                                        <div class="custom-control custom-checkbox">
+                                                            <input type="checkbox" class="custom-control-input" name="certificate_enabled" id="certificate_enabled" value="1" <?php if (!empty($course_details['certificate_enabled'])) echo 'checked'; ?> onclick="toggleCertFields()">
+                                                            <label class="custom-control-label" for="certificate_enabled">🪪 <?php echo get_phrase('Aktifkan Sertifikat'); ?></label>
+                                                        </div>
+                                                        <small class="text-muted">Centang jika kelas ini memiliki sertifikat kelulusan</small>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group row mb-3 catml-2" id="cert_template_row" style="<?php if (empty($course_details['certificate_enabled'])) echo 'display:none;'; ?>">
+                                                    <label class="col-md-2 col-form-label" for="certificate_template"><?php echo get_phrase('Template Sertifikat'); ?></label>
+                                                    <div class="col-md-10">
+                                                        <input type="file" class="form-control" name="certificate_template" id="certificate_template" accept=".jpg,.jpeg,.png">
+                                                        <small class="text-muted">Upload template JPG/PNG. Kosongkan untuk pakai template default.</small>
+                                                        <?php if (!empty($course_details['certificate_template'])): ?>
+                                                            <div class="mt-2">
+                                                                <img src="<?php echo base_url('uploads/certificates/' . $course_details['certificate_template']); ?>" style="max-width:200px;border:1px solid #ddd;border-radius:4px;">
+                                                            </div>
+                                                        <?php endif; ?>
+                                                    </div>
+                                                </div>
+
+                                                <script>
+                                                function toggleCertFields() {
+                                                    var checked = document.getElementById('certificate_enabled').checked;
+                                                    document.getElementById('cert_template_row').style.display = checked ? '' : 'none';
+                                                }
+                                                </script>
+
                                                 <div class="form-group row mb-3">
                                                     <label class="col-md-2 col-form-label"><?php echo get_phrase('Expiry period'); ?></label>
                                                     <div class="col-md-10 pt-2 d-flex">

@@ -29,3 +29,8 @@ uploads/certificates/*
 Dockerfile
 docker-compose.yml
 docker-compose.prod.yml
+
+# Database backup
+*.sql
+*.sql.gz
+backups/

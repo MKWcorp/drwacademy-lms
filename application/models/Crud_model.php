@@ -2580,7 +2580,16 @@ class Crud_model extends CI_Model
                     $data['date_added'] = strtotime(date('D, d-M-Y'));
                     $this->db->insert('enrol', $data);
                 } else {
-                    $data['last_modified'] = time();
+        $data['last_modified'] = time();
+
+        $data['certificate_enabled'] = $this->input->post('certificate_enabled') ? 1 : 0;
+
+        if (!empty($_FILES['certificate_template']['name'])) {
+            $ext = pathinfo($_FILES['certificate_template']['name'], PATHINFO_EXTENSION);
+            $filename = 'template_' . $course_id . '.' . $ext;
+            move_uploaded_file($_FILES['certificate_template']['tmp_name'], 'uploads/certificates/' . $filename);
+            $data['certificate_template'] = $filename;
+        }
                     $this->db->where('course_id', $course_id);
                     $this->db->where('user_id', $user_id);
                     $this->db->update('enrol', $data);

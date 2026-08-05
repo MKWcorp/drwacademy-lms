@@ -19,6 +19,11 @@ class Certificate_model extends CI_Model
             return false;
         }
 
+        $course = $this->db->get_where('course', array('id' => $course_id))->row_array();
+        if (empty($course['certificate_enabled'])) {
+            return false;
+        }
+
         $sudah_ada = $this->db->get_where('certificates', array(
             'course_id'  => $course_id,
             'student_id' => $user_id
@@ -51,7 +56,12 @@ class Certificate_model extends CI_Model
      */
     private function _buat_gambar_sertifikat($user_id, $course_id, $identifier)
     {
-        $template_path = FCPATH . 'uploads/certificates/template.jpg';
+        $default_template = FCPATH . 'uploads/certificates/template.jpg';
+        $course = $this->db->get_where('course', array('id' => $course_id))->row_array();
+        $custom = !empty($course['certificate_template'])
+            ? FCPATH . 'uploads/certificates/' . $course['certificate_template']
+            : null;
+        $template_path = ($custom && file_exists($custom)) ? $custom : $default_template;
         $output_dir    = FCPATH . 'uploads/certificates/';
         $font_bold     = FCPATH . 'assets/backend/fonts/Nunito-Bold.ttf';
         $font_regular  = FCPATH . 'assets/backend/fonts/Nunito-Regular.ttf';
