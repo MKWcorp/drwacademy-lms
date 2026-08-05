@@ -68,9 +68,16 @@ if ($lesson['lesson_type'] == 'video') {
 			$drive_id = $matches[1] ?? '';
 			?>
 			<?php if ($drive_id): ?>
-			<iframe src="https://drive.google.com/file/d/<?php echo $drive_id; ?>/preview"
-				style="width:100%;height:56.25vw;min-height:340px;max-height:520px;border:0;display:block;"
-				allowfullscreen></iframe>
+			<div class="gdrive-mobile-launcher">
+				<div class="gdrive-mobile-launcher__icon" aria-hidden="true">&#9654;</div>
+				<div class="gdrive-mobile-launcher__title"><?php echo html_escape($lesson['title']); ?></div>
+				<a class="gdrive-mobile-launcher__button"
+					href="https://drive.google.com/file/d/<?php echo $drive_id; ?>/preview"
+					target="_blank" rel="noopener noreferrer">
+					Putar Video Fullscreen
+				</a>
+				<div class="gdrive-mobile-launcher__hint">Video akan dibuka pada layar pemutar Google Drive.</div>
+			</div>
 			<?php endif; ?>
 		<?php else: ?>
 			<video controls playsinline preload="metadata"
