@@ -863,7 +863,11 @@ class User extends CI_Controller
 
         $page_data['quiz_questions'] = $this->db->get_where('question', array('quiz_id' => $quiz_id));
         $page_data['quiz_id'] = $quiz_id;
-        $this->load->view('lessons/quiz_answer_sheet', $page_data);
+        if ($this->input->get('mobile') == 1) {
+            $this->load->view('mobile/quiz_answer_sheet', $page_data);
+        } else {
+            $this->load->view('lessons/quiz_answer_sheet', $page_data);
+        }
     }
 
     function submit_quiz_answer($quiz_id = "", $question_id = "", $question_type = "")

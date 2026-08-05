@@ -1,140 +1,79 @@
 <?php $quiz_results = $quiz_results->row_array(); ?>
 <?php $user_all_answers = json_decode(strtolower($quiz_results['user_answers']), true); ?>
 <?php $my_correct_answer_question_ids = json_decode(strtolower($quiz_results['correct_answers']), true); ?>
-<div class="col-12 mt-3">
-    <h4 class="w-100 text-center"><?php echo get_phrase('quiz_results'); ?></h4>
-    <p class="w-100 text-center mb-1"><?php echo get_phrase('total_marks'); ?> : <?php echo json_decode($lesson_details['attachment'], true)['total_marks']; ?></p>
-    <p class="w-100 text-center my-0"><?php echo get_phrase('obtained_marks'); ?> : <?php echo $quiz_results['total_obtained_marks']; ?></p>
-</div>
+<?php $total_marks = is_array(json_decode($lesson_details['attachment'], true)) ? json_decode($lesson_details['attachment'], true)['total_marks'] : 0; ?>
+<?php $obtained = intval($quiz_results['total_obtained_marks']); ?>
+<?php $percent = $total_marks > 0 ? round($obtained / $total_marks * 100) : 0; ?>
 
+<div class="quiz-result">
+    <div class="quiz-result-score">
+        <div class="quiz-result-score-circle <?php echo $percent >= 70 ? 'pass' : 'fail'; ?>">
+            <div class="quiz-result-score-num"><?php echo $obtained; ?></div>
+            <div class="quiz-result-score-total">dari <?php echo $total_marks; ?></div>
+        </div>
+        <div class="quiz-result-score-label">
+            <?php if($percent >= 70): ?>
+                🎉 Selamat, kamu lulus!
+            <?php else: ?>
+                💪 Tetap semangat, coba lagi ya!
+            <?php endif; ?>
+        </div>
+    </div>
 
-<div class="col-12">
-    <?php foreach($quiz_questions->result_array() as $question_number => $quiz_question):
-        $question_number++;
-        if(array_key_exists($quiz_question['id'], $user_all_answers)){
+    <div class="quiz-result-count">
+        <span style="color:var(--success);">✅ <?php echo count($my_correct_answer_question_ids); ?> benar</span>
+        <span style="color:#DC3545;">❌ <?php echo count($user_all_answers) - count($my_correct_answer_question_ids); ?> salah</span>
+    </div>
+
+    <div class="quiz-result-detail-title">📋 Detail Jawaban</div>
+
+    <?php foreach($quiz_questions->result_array() as $question_number => $quiz_question): ?>
+    <?php $question_number++; ?>
+    <?php
+        if(array_key_exists($quiz_question['id'], $user_all_answers)) {
             $user_answers = $user_all_answers[$quiz_question['id']];
-        }else{
+        } else {
             $user_answers = array();
         }
-        if($quiz_question['type'] == 'multiple_choice' || $quiz_question['type'] == 'single_choice'): ?>
-            <?php $input_type = ($quiz_question['type'] == 'multiple_choice')? 'checkbox' : 'radio'; ?>
-        <hr class="bg-secondary">
-        <div class="row justify-content-center">
-            <div class="col-md-1 pt-1 text-start"><b><?php echo $question_number; ?>.</b></div>
-            <div class="col-md-9">
-                <?php echo remove_js(htmlspecialchars_decode_($quiz_question['title'])); ?>
-            </div>
+        $is_correct = in_array($quiz_question['id'], $my_correct_answer_question_ids);
+    ?>
+
+    <div class="quiz-result-q <?php echo $is_correct ? 'correct' : 'wrong'; ?>">
+        <div class="quiz-result-q-header">
+            <span class="quiz-result-q-status"><?php echo $is_correct ? '✅' : '❌'; ?></span>
+            <span class="quiz-result-q-num">Soal <?php echo $question_number; ?></span>
         </div>
-        <div class="row justify-content-center">
-            <div class="col-md-1"></div>
-            <div class="col-md-9">
-                <?php foreach(json_decode($quiz_question['options'], true) as $key => $option): ?>
-                    <?php $key++; ?>
+        <div class="quiz-result-q-title"><?php echo remove_js(htmlspecialchars_decode_($quiz_question['title'])); ?></div>
 
-
-                    <div class="form-group">
-
-                        <input id="option_<?php echo $question_number.'_'.$key; ?>" type="<?php echo $input_type; ?>" value="<?php echo $key; ?>"  disabled <?php if(in_array($key, $user_answers)) echo 'checked'; ?>>
-                        <label class="<?php echo $input_type; ?> text-dark" for="option_<?php echo $question_number.'_'.$key; ?>"><?php echo $option; ?></label><br>
-                    </div>
-                <?php endforeach; ?>
-
-                <?php if(!in_array($quiz_question['id'], $my_correct_answer_question_ids)): ?>
-                    <div class="w-100 text-danger fw-bold">
-                        <i class="fas fa-times"></i> <?php echo site_phrase('wrong'); ?>!!
-                    </div>
-                    <div class="w-100 text-success fw-bold">
-                        <?php echo site_phrase('correct_answer'); ?> : 
-                        <?php
-                            foreach(json_decode($quiz_question['correct_answers'], true) as $ans_arr_key => $correct_answer):
-                                $correct_answer = $correct_answer - 1;
-                                $ans_arr = json_decode($quiz_question['options'], true);
-                                
-                                echo $ans_arr[$correct_answer];
-                                
-                                if(count(json_decode($quiz_question['correct_answers'], true)) > ($ans_arr_key+1)):
-                                    echo ', ';
-                                endif;
-                            endforeach;
-                        ?>
-                    </div>
-                <?php else: ?>
-                    <div class="w-100 text-success fw-bold">
-                        <i class="fas fa-check"></i> <?php echo site_phrase('correct'); ?>.
-                    </div>
-                <?php endif; ?>
+        <?php if($question_number <= count($quiz_questions->result_array())): ?>
+            <?php if(!$is_correct && !empty($quiz_question['correct_answers'])): ?>
+            <div class="quiz-result-q-answer">
+                Jawaban benar:
+                <?php foreach(json_decode($quiz_question['correct_answers'], true) as $ca):
+                    $opts = json_decode($quiz_question['options'], true);
+                    $idx = intval($ca) - 1;
+                    echo isset($opts[$idx]) ? htmlspecialchars($opts[$idx]) : htmlspecialchars($ca);
+                endforeach; ?>
             </div>
-        </div>
-    <?php elseif($quiz_question['type'] == 'fill_in_the_blank'): ?>
-        <hr class="bg-secondary">
-        <div class="row justify-content-center">
-            <div class="col-1 pt-1"><b><?php echo $question_number; ?>.</b></div>
-            <div class="col-md-9">
-                <?php
-                $correct_answers = json_decode($quiz_question['correct_answers'], true);
-                $question_title = remove_js(htmlspecialchars_decode_($quiz_question['title']));
-                foreach($correct_answers as $correct_answer):
-                    $question_title = str_replace($correct_answer, ' _____ ', $question_title);
-                endforeach;
-                echo $question_title;
-                ?>
-            </div>
-        </div>
-        <div class="row justify-content-center">
-            <div class="col-md-1"></div>
-            <div class="col-md-9">
-                <div class="input-group mb-3">
-                    <?php $counter = 0; ?>
-                    <?php foreach($correct_answers as $key => $word): ?>
-                        <?php $word = strtolower($word); ?>
-                        <span class="input-group-text"><?php echo ++$key; ?></span>
-                        <input type="text" value="<?php echo isset($user_answers[$counter])? $user_answers[$counter] : ''; ?>" class="form-control" name="answer[]" disabled>
-                        <?php $counter++; ?>
-                    <?php endforeach; ?>
-
-                    <?php if(!in_array($quiz_question['id'], $my_correct_answer_question_ids)): ?>
-                        <div class="w-100 text-danger fw-bold">
-                            <i class="fas fa-times"></i> <?php echo site_phrase('wrong'); ?>!!
-                        </div>
-                        <div class="w-100 text-success fw-bold">
-                            <?php echo site_phrase('correct_answer'); ?> : 
-                            <?php
-                                foreach(json_decode($quiz_question['correct_answers'], true) as $correct_answer):
-                                    echo '<u class="ms-3">'.$correct_answer.'</u>';
-                                endforeach;
-                            ?>
-                        </div>
-                    <?php else: ?>
-                        <div class="w-100 text-success fw-bold">
-                            <i class="fas fa-check"></i> <?php echo site_phrase('correct'); ?>.
-                        </div>
-                    <?php endif; ?>
-                </div>
-            </div>
-        </div>
-    <?php endif; ?>
+            <?php endif; ?>
+        <?php endif; ?>
+    </div>
     <?php endforeach; ?>
 
     <?php
-        $total_attemped = $this->db->where('quiz_id', $lesson_details['id'])->get('quiz_results')->num_rows();
+        $total_attempted = $this->db->where('quiz_id', $lesson_details['id'])->get('quiz_results')->num_rows();
     ?>
-    <?php if($lesson_details['quiz_attempt'] > ($total_attemped - 1)): ?>
-        <div class="row justify-content-center">
-            <div class="col-md-1"></div>
-            <div class="col-md-9">
-                <a class="btn btn-dark text-white mt-5" onclick="take_the_quiz_again()" href="javascript:;"><?php echo get_phrase('take_the_quiz_again'); ?> <i class="fas fa-chevron-right"></i></a>
-            </div>
-        </div>
+    <?php if($lesson_details['quiz_attempt'] > ($total_attempted - 1)): ?>
+        <button class="quiz-retake-btn" onclick="retakeQuiz()">🔄 Coba Lagi</button>
         <script>
-            function take_the_quiz_again(){
-                $.ajax({
-                    url: '<?php echo site_url('user/start_quiz/'.$lesson_details['id'].'/retake'); ?>',
-                    success: function(){
-                        location.reload();
-                    }
-                });
-            }
+        function retakeQuiz() {
+            if (!confirm('Mau coba ulang quiz?')) return;
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', '<?php echo site_url('user/start_quiz/'.$lesson_details['id'].'/retake'); ?>', true);
+            xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+            xhr.onload = function() { location.reload(); };
+            xhr.send();
+        }
         </script>
     <?php endif; ?>
 </div>
-

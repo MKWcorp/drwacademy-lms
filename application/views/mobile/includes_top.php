@@ -7,8 +7,6 @@
 <link href="<?php echo site_url('assets/playing-page/') ?>css/style.css?v=<?php echo filemtime(FCPATH . 'assets/playing-page/css/style.css'); ?>" rel="stylesheet" />
 
 <?php if(addon_status('certificate')): ?>
-	<!-- Progress Bar Css -->
-	<link rel="stylesheet" href="<?php echo site_url('assets/playing-page/') ?>css/jQuery-plugin-progressbar.css" />
 	<!-- Custome Css -->
 	<link href="<?php echo site_url('assets/playing-page/') ?>css/custom.css" rel="stylesheet" />
 <?php endif; ?>

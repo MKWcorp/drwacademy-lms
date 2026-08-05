@@ -888,6 +888,15 @@ class Crud_model extends CI_Model
         $data['meta_keywords'] = $this->input->post('meta_keywords');
         $data['last_modified'] = time();
 
+        $data['certificate_enabled'] = $this->input->post('certificate_enabled') ? 1 : 0;
+
+        if (!empty($_FILES['certificate_template']['name'])) {
+            $ext = pathinfo($_FILES['certificate_template']['name'], PATHINFO_EXTENSION);
+            $filename = 'template_' . $course_id . '.' . $ext;
+            move_uploaded_file($_FILES['certificate_template']['tmp_name'], 'uploads/certificates/' . $filename);
+            $data['certificate_template'] = $filename;
+        }
+
 
         if ($this->session->userdata('admin_login')) {
             if ($this->input->post('is_top_course') != 1) {
@@ -1861,7 +1870,7 @@ class Crud_model extends CI_Model
                 $data['duration'] = $hour . ':' . $min . ':' . $sec;
 
                 $video_details = $this->video_model->getVideoDetails($data['video_url']);
-                $data['video_type'] = $video_details['provider'];
+                $data['video_type'] = !empty($video_details['provider']) ? $video_details['provider'] : $lesson_provider;
             } elseif ($lesson_provider == 'academy_cloud') {
                 if (isset($_FILES['cloud_video_file']['name']) && $_FILES['cloud_video_file']['name'] == "") {
                     return json_encode(['error' => get_phrase('invalid_video_file')]);
@@ -2580,16 +2589,7 @@ class Crud_model extends CI_Model
                     $data['date_added'] = strtotime(date('D, d-M-Y'));
                     $this->db->insert('enrol', $data);
                 } else {
-        $data['last_modified'] = time();
-
-        $data['certificate_enabled'] = $this->input->post('certificate_enabled') ? 1 : 0;
-
-        if (!empty($_FILES['certificate_template']['name'])) {
-            $ext = pathinfo($_FILES['certificate_template']['name'], PATHINFO_EXTENSION);
-            $filename = 'template_' . $course_id . '.' . $ext;
-            move_uploaded_file($_FILES['certificate_template']['tmp_name'], 'uploads/certificates/' . $filename);
-            $data['certificate_template'] = $filename;
-        }
+                    $data['last_modified'] = time();
                     $this->db->where('course_id', $course_id);
                     $this->db->where('user_id', $user_id);
                     $this->db->update('enrol', $data);
