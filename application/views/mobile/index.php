@@ -17,8 +17,12 @@
 	<header class="app-header">
 		<?php if (isset($show_back) && $show_back): ?>
 			<a href="javascript:history.back()" class="app-header-back">
-				← <span>Kembali</span>
+				<span class="app-header-back__icon">&lsaquo;</span>
+				<span>Kembali</span>
 			</a>
+			<?php if (isset($page_title)): ?>
+				<div class="app-header-title"><?php echo $page_title; ?></div>
+			<?php endif; ?>
 		<?php else: ?>
 			<a href="<?php echo site_url('mobile'); ?>" class="app-header-logo">
 				<?php echo get_settings('system_name'); ?>

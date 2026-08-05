@@ -32,7 +32,7 @@ $user = $this->user_model->get_all_user($user_id)->row_array();
 		<span class="menu-arrow">›</span>
 	</a>
 
-	<a href="<?php echo site_url('login/logout'); ?>" class="logout">
+	<a href="<?php echo site_url('login/logout'); ?>" class="logout" onclick="return confirm('Yakin ingin keluar?')">
 		<span class="menu-icon">🚪</span>
 		Keluar
 		<span class="menu-arrow">›</span>

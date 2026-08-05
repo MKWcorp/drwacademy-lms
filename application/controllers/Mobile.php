@@ -40,6 +40,7 @@ class Mobile extends CI_Controller
         $page_data['page_name'] = 'category';
         $page_data['category_slug'] = $slug;
         $page_data['show_back'] = true;
+        $page_data['page_title'] = 'Kategori';
         $this->load->view('mobile/index', $page_data);
     }
 
@@ -50,6 +51,7 @@ class Mobile extends CI_Controller
         $page_data['page_name'] = 'course';
         $page_data['course_id'] = $course_id;
         $page_data['show_back'] = true;
+        $page_data['page_title'] = 'Detail Kelas';
 
         // Pre-load certificate data if applicable
         $user_id = intval($this->session->userdata('user_id'));
@@ -103,6 +105,7 @@ class Mobile extends CI_Controller
         $page_data['lesson_id'] = $lesson_id;
         $page_data['show_back'] = true;
         $page_data['body_class'] = 'page-watch';
+        $page_data['page_title'] = 'Nonton';
         $this->load->view('mobile/index', $page_data);
     }
 
@@ -127,6 +130,7 @@ class Mobile extends CI_Controller
         }
         $page_data['page_name'] = 'my_courses';
         $page_data['show_back'] = false;
+        $page_data['page_title'] = 'Kelas Saya';
         $this->load->view('mobile/index', $page_data);
     }
 
@@ -139,6 +143,7 @@ class Mobile extends CI_Controller
         }
         $page_data['page_name'] = 'profile';
         $page_data['show_back'] = false;
+        $page_data['page_title'] = 'Profil';
         $this->load->view('mobile/index', $page_data);
     }
 
