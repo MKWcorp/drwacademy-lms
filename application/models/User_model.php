@@ -832,14 +832,14 @@ class User_model extends CI_Model
 
     public function create_user_from_reseller($reseller = array())
     {
-        $nama = isset($reseller['nama']) ? $reseller['nama'] : '';
+        $nama = isset($reseller['nama_reseller']) ? $reseller['nama_reseller'] : '';
         $name_parts = explode(' ', $nama, 2);
         $first_name = $name_parts[0];
         $last_name = isset($name_parts[1]) ? $name_parts[1] : '';
 
         $email = isset($reseller['email']) ? $reseller['email'] : '';
-        $phone = isset($reseller['hp']) ? $reseller['hp'] : '';
-        $id_reseller = isset($reseller['uid']) ? $reseller['uid'] : '';
+        $phone = isset($reseller['nomor_hp']) ? $reseller['nomor_hp'] : '';
+        $id_reseller = isset($reseller['id_reseller']) ? $reseller['id_reseller'] : '';
 
         $existing = $this->db->get_where('users', array('email' => $email));
         if ($existing->num_rows() > 0) {

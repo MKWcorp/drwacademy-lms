@@ -88,36 +88,37 @@ class Login extends CI_Controller
             redirect(site_url('login'), 'refresh');
         }
 
-        $api_url = 'https://api.drwapp.com/v1/customer?uid_like=' . urlencode($id_reseller) . '&has_pos_level=1&has_pos_name=1&akun=active';
-        $response = $this->fetch_api($api_url);
+        $api_url = 'https://new.drwapp.com/apis/reseller/get/uid/' . urlencode($id_reseller);
+        $headers = array(
+            'Authorization: Bearer c5d46484b83e6d90d2c55bc7a0ec9782493a1fa2434b66ebed36c3e668f74e89'
+        );
+        $response = $this->fetch_api($api_url, $headers);
 
         if ($response === false) {
             $this->session->set_flashdata('error_message', 'Layanan ID Reseller sedang tidak tersedia. Silakan login dengan email.');
             redirect(site_url('login'), 'refresh');
         }
 
-        $data = json_decode($response, true);
+        $response_data = json_decode($response, true);
 
-        if (!$data || !isset($data['data']) || empty($data['data'])) {
+        if (!$response_data || !isset($response_data['data']) || empty($response_data['data'])) {
             $this->session->set_flashdata('error_message', 'ID Reseller tidak ditemukan');
             redirect(site_url('login'), 'refresh');
         }
 
-        $matched = null;
-        $normalized_input = $this->user_model->normalize_phone($nomor_hp);
-        foreach ($data['data'] as $customer) {
-            if ($this->user_model->normalize_phone($customer['hp']) === $normalized_input) {
-                $matched = $customer;
-                break;
-            }
+        $reseller = $response_data['data'][0];
+
+        if (!isset($reseller['status_akun']) || $reseller['status_akun'] !== 'active') {
+            $this->session->set_flashdata('error_message', 'Akun reseller tidak aktif');
+            redirect(site_url('login'), 'refresh');
         }
 
-        if (!$matched) {
+        if ($this->user_model->normalize_phone($reseller['nomor_hp']) !== $this->user_model->normalize_phone($nomor_hp)) {
             $this->session->set_flashdata('error_message', 'Nomor HP tidak sesuai dengan ID Reseller');
             redirect(site_url('login'), 'refresh');
         }
 
-        $id_reseller = $matched['uid'];
+        $id_reseller = $reseller['id_reseller'];
 
         $user = $this->user_model->get_user_by_reseller_id($id_reseller);
 
@@ -127,7 +128,7 @@ class Login extends CI_Controller
             $this->user_model->new_device_login_tracker($row->id);
             $this->user_model->set_login_userdata($row->id);
         } else {
-            $user_id = $this->user_model->create_user_from_reseller($matched);
+            $user_id = $this->user_model->create_user_from_reseller($reseller);
 
             if ($user_id) {
                 $this->session->set_flashdata('login_form_mode', null);
@@ -495,13 +496,16 @@ class Login extends CI_Controller
         }
     }
 
-    private function fetch_api($url)
+    private function fetch_api($url, $headers = array())
     {
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_TIMEOUT, 10);
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        if (!empty($headers)) {
+            curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+        }
         $response = curl_exec($ch);
         $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         curl_close($ch);
