@@ -88,7 +88,7 @@ class Login extends CI_Controller
             redirect(site_url('login'), 'refresh');
         }
 
-        $api_url = 'https://api.drwapp.com/v1/customer?search=' . urlencode($id_reseller) . '&has_pos_level=1&has_pos_name=1&akun=active';
+        $api_url = 'https://api.drwapp.com/v1/customer?uid_like=' . urlencode($id_reseller) . '&has_pos_level=1&has_pos_name=1&akun=active';
         $response = $this->fetch_api($api_url);
 
         if ($response === false) {
