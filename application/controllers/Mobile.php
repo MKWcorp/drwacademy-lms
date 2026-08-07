@@ -112,7 +112,7 @@ class Mobile extends CI_Controller
         $page_data['lesson_id'] = $lesson_id;
         $page_data['show_back'] = true;
         $page_data['body_class'] = 'page-watch';
-        $page_data['page_title'] = 'Nonton';
+        $page_data['page_title'] = $lesson['title'];
         $this->load->view('mobile/index', $page_data);
     }
 

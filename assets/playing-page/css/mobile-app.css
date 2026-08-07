@@ -57,21 +57,17 @@ body {
 .app-header-back {
   display: inline-flex;
   align-items: center;
-  gap: 2px;
-  color: var(--primary);
-  font-size: 15px;
-  font-weight: 500;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  color: var(--gray-700);
+  font-size: 16px;
   text-decoration: none;
-  padding: 8px 8px 8px 0;
-  min-height: 40px;
   -webkit-tap-highlight-color: transparent;
+  transition: background 0.15s;
 }
-.app-header-back__icon {
-  font-size: 26px;
-  line-height: 1;
-  font-weight: 300;
-}
-.app-header-back:active { opacity: 0.6; }
+.app-header-back:active { background: var(--gray-100); }
 
 .app-header-title {
   position: absolute;
@@ -442,20 +438,24 @@ body {
   max-height: 60vh;
 }
 .gdrive-mobile-launcher {
-  width: 100%;
-  min-height: min(56.25vw, 340px);
-  background: linear-gradient(135deg, #0f0f1a 0%, #1a1a2e 50%, #16213e 100%);
-  color: #fff;
-  padding: 32px 24px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   text-align: center;
-  gap: 14px;
+  gap: 10px;
+  width: 100%;
+  min-height: min(56.25vw, 340px);
+  background: linear-gradient(135deg, #0f0f1a 0%, #1a1a2e 50%, #16213e 100%);
+  color: #fff;
+  padding: 32px 24px;
   position: relative;
   overflow: hidden;
+  text-decoration: none;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
 }
+.gdrive-mobile-launcher:active { opacity: 0.95; }
 .gdrive-mobile-launcher::before {
   content: '';
   position: absolute;
@@ -467,30 +467,26 @@ body {
   pointer-events: none;
 }
 .gdrive-mobile-launcher__icon {
-  width: 64px;
-  height: 64px;
+  width: 56px;
+  height: 56px;
   border-radius: 50%;
-  background: var(--primary);
+  background: rgba(255,255,255,0.10);
   display: grid;
   place-items: center;
   padding-left: 4px;
-  font-size: 24px;
-  box-shadow: 0 0 24px rgba(117,79,254,0.35);
+  font-size: 22px;
+  color: rgba(255,255,255,0.6);
   position: relative;
   z-index: 1;
-  animation: gdrive-pulse 2.5s ease-in-out infinite;
 }
-@keyframes gdrive-pulse {
-  0%, 100% { box-shadow: 0 0 16px rgba(117,79,254,0.35); }
-  50% { box-shadow: 0 0 32px rgba(117,79,254,0.55); }
-}
-.gdrive-mobile-launcher__icon::before {
-  content: '';
-  position: absolute;
-  inset: -6px;
-  border-radius: 50%;
-  border: 2px solid rgba(117,79,254,0.25);
-  pointer-events: none;
+.gdrive-mobile-launcher__badge {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  color: rgba(255,255,255,0.4);
+  position: relative;
+  z-index: 1;
 }
 .gdrive-mobile-launcher__title {
   max-width: 440px;
@@ -504,71 +500,96 @@ body {
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  gap: 8px;
   min-height: 48px;
   padding: 12px 28px;
   border-radius: 12px;
-  background: var(--primary);
-  color: #fff;
+  background: #fff;
+  color: var(--primary);
   font-size: 15px;
   font-weight: 600;
-  text-decoration: none;
   position: relative;
   z-index: 1;
   transition: transform 0.15s, box-shadow 0.15s;
-  box-shadow: 0 4px 16px rgba(117,79,254,0.3);
+  box-shadow: 0 4px 20px rgba(255,255,255,0.25);
 }
-.gdrive-mobile-launcher__button:active {
+.gdrive-mobile-launcher:active .gdrive-mobile-launcher__button {
   transform: scale(0.96);
-  box-shadow: 0 2px 8px rgba(117,79,254,0.3);
+  box-shadow: 0 2px 10px rgba(255,255,255,0.2);
 }
-.gdrive-mobile-launcher__button:hover,
-.gdrive-mobile-launcher__button:focus {
-  color: #fff;
-  text-decoration: none;
-}
-.gdrive-mobile-launcher__hint {
-  color: rgba(255,255,255,0.45);
-  font-size: 12px;
-  line-height: 1.4;
-  position: relative;
-  z-index: 1;
-}
+.gdrive-mobile-launcher__button i { font-size: 14px; }
 .video-info {
   padding: 12px 16px;
   background: var(--white);
   border-radius: var(--radius-md);
-  margin-bottom: 16px;
+  margin: 0 16px 16px;
 }
 .video-title { font-size: 16px; font-weight: 600; margin-bottom: 4px; }
 .video-meta { font-size: 13px; color: var(--gray-500); }
 
+/* ============ Watch Actions ============ */
+.watch-actions {
+  padding: 0 16px 16px;
+}
+
+.btn-mark-incomplete {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  width: 100%;
+  padding: 12px;
+  background: var(--white);
+  color: var(--gray-700);
+  border: 1px solid var(--gray-300);
+  border-radius: var(--radius-md);
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+  margin-bottom: 12px;
+  transition: background 0.15s;
+}
+.btn-mark-incomplete:active { background: var(--gray-100); }
+.btn-mark-incomplete i { font-size: 13px; color: var(--gray-500); }
+
 .video-nav {
   display: flex;
   gap: 10px;
-  margin-bottom: 20px;
 }
 .video-nav .btn {
   flex: 1;
-  padding: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  padding: 14px 12px;
   text-align: center;
-  border-radius: var(--radius-sm);
+  border-radius: var(--radius-md);
   font-size: 14px;
   font-weight: 600;
   text-decoration: none;
   border: none;
   cursor: pointer;
+  transition: background 0.15s;
 }
+.video-nav .btn i { font-size: 13px; }
 .video-nav .btn-prev {
-  background: var(--gray-100);
+  background: var(--white);
   color: var(--gray-700);
+  border: 1px solid var(--gray-200);
 }
+.video-nav .btn-prev:active { background: var(--gray-100); }
 .video-nav .btn-next {
   background: var(--primary);
   color: var(--white);
 }
+.video-nav .btn-next:active { background: var(--primary-dark); }
 .video-nav .btn-next.complete {
   background: var(--success);
 }
+.video-nav .btn-next.complete:active { opacity: 0.85; }
 
 /* ============ Buttons ============ */
 .btn-primary {
@@ -587,23 +608,6 @@ body {
   transition: background 0.2s;
 }
 .btn-primary:active { background: var(--primary-dark); }
-
-.btn-outline {
-  display: block;
-  width: 100%;
-  padding: 14px;
-  background: var(--white);
-  color: var(--primary);
-  border: 1.5px solid var(--primary);
-  border-radius: var(--radius-md);
-  font-size: 15px;
-  font-weight: 600;
-  cursor: pointer;
-  text-align: center;
-  text-decoration: none;
-  transition: background 0.2s;
-}
-.btn-outline:active { background: var(--primary-light); }
 
 /* ============ Quiz ============ */
 .quiz-container {

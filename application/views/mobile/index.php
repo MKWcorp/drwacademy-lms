@@ -16,9 +16,8 @@
 	<!-- App Header -->
 	<header class="app-header">
 		<?php if (isset($show_back) && $show_back): ?>
-			<a href="javascript:history.back()" class="app-header-back">
-				<span class="app-header-back__icon">&lsaquo;</span>
-				<span>Kembali</span>
+			<a href="javascript:history.back()" class="app-header-back" aria-label="Kembali">
+				<i class="fas fa-arrow-left"></i>
 			</a>
 			<?php if (isset($page_title)): ?>
 				<div class="app-header-title"><?php echo $page_title; ?></div>

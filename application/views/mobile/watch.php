@@ -68,16 +68,16 @@ if ($lesson['lesson_type'] == 'video') {
 			$drive_id = $matches[1] ?? '';
 			?>
 			<?php if ($drive_id): ?>
-			<div class="gdrive-mobile-launcher">
+			<a class="gdrive-mobile-launcher"
+				href="https://drive.google.com/file/d/<?php echo $drive_id; ?>/preview"
+				target="_blank" rel="noopener noreferrer">
 				<div class="gdrive-mobile-launcher__icon" aria-hidden="true">&#9654;</div>
+				<div class="gdrive-mobile-launcher__badge">Google Drive</div>
 				<div class="gdrive-mobile-launcher__title"><?php echo html_escape($lesson['title']); ?></div>
-				<a class="gdrive-mobile-launcher__button"
-					href="https://drive.google.com/file/d/<?php echo $drive_id; ?>/preview"
-					target="_blank" rel="noopener noreferrer">
-					Putar Video Fullscreen
-				</a>
-				<div class="gdrive-mobile-launcher__hint">Video akan dibuka pada layar pemutar Google Drive.</div>
-			</div>
+				<div class="gdrive-mobile-launcher__button">
+					<i class="fas fa-external-link-alt"></i> Putar Video
+				</div>
+			</a>
 			<?php endif; ?>
 		<?php else: ?>
 			<video controls playsinline preload="metadata"
@@ -103,32 +103,34 @@ if ($lesson['lesson_type'] == 'video') {
 	</div>
 </div>
 
-<?php if ($is_completed): ?>
-	<a href="javascript:void(0)" class="btn-outline" onclick="markComplete(<?php echo $lesson_id; ?>, <?php echo $course['id']; ?>)">
-		↩️ Tandai Belum Selesai
-	</a>
-<?php endif; ?>
-
-<div class="video-nav">
-	<?php if ($prev_lesson): ?>
-		<a href="<?php echo site_url('mobile/nonton/' . $prev_lesson['id']); ?>" class="btn btn-prev">
-			← Sebelumnya
+<div class="watch-actions">
+	<?php if ($is_completed): ?>
+		<a href="javascript:void(0)" class="btn-mark-incomplete" onclick="markComplete(<?php echo $lesson_id; ?>, <?php echo $course['id']; ?>)">
+			<i class="fas fa-undo-alt"></i> Tandai belum selesai
 		</a>
 	<?php endif; ?>
 
-	<?php if ($next_lesson && $next_lesson['lesson_type'] == 'quiz'): ?>
-		<a href="<?php echo site_url('mobile/quiz/' . $next_lesson['id']); ?>" class="btn btn-next">
-			<?php echo $is_completed ? '📝 Lanjut Quiz →' : '📝 Quiz →'; ?>
-		</a>
-	<?php elseif ($next_lesson): ?>
-		<a href="<?php echo site_url('mobile/nonton/' . $next_lesson['id']); ?>" class="btn btn-next">
-			Selanjutnya →
-		</a>
-	<?php elseif ($is_completed): ?>
-		<a href="<?php echo site_url('mobile/kelas/' . $course['id']); ?>" class="btn btn-next complete">
-			✅ Selesai — Kembali
-		</a>
-	<?php endif; ?>
+	<div class="video-nav">
+		<?php if ($prev_lesson): ?>
+			<a href="<?php echo site_url('mobile/nonton/' . $prev_lesson['id']); ?>" class="btn btn-prev">
+				<i class="fas fa-chevron-left"></i> Sebelumnya
+			</a>
+		<?php endif; ?>
+
+		<?php if ($next_lesson && $next_lesson['lesson_type'] == 'quiz'): ?>
+			<a href="<?php echo site_url('mobile/quiz/' . $next_lesson['id']); ?>" class="btn btn-next">
+				<?php echo $is_completed ? 'Lanjut Quiz' : 'Quiz'; ?> <i class="fas fa-chevron-right"></i>
+			</a>
+		<?php elseif ($next_lesson): ?>
+			<a href="<?php echo site_url('mobile/nonton/' . $next_lesson['id']); ?>" class="btn btn-next">
+				Selanjutnya <i class="fas fa-chevron-right"></i>
+			</a>
+		<?php elseif ($is_completed): ?>
+			<a href="<?php echo site_url('mobile/kelas/' . $course['id']); ?>" class="btn btn-next complete">
+				<i class="fas fa-check-circle"></i> Selesai &mdash; Kembali
+			</a>
+		<?php endif; ?>
+	</div>
 </div>
 
 <script>
