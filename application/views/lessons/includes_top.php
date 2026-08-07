@@ -1,3 +1,5 @@
+<link rel="icon" type="image/png" href="<?php echo base_url('uploads/system/'.get_settings('favicon')); ?>" />
+
 <!-- Bootstrap CSS -->
 <?php if($language_dir == 'rtl'): ?>
     <link href="<?php echo site_url('assets/playing-page/') ?>css/bootstrap.rtl.min.css" rel="stylesheet" />

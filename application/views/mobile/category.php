@@ -74,9 +74,9 @@ $count = count($courses);
 			<div class="course-card-body">
 				<div class="course-title"><?php echo htmlspecialchars($course['title']); ?></div>
 				<div class="course-card-meta">
-					<span>📹 <?php echo $total_lessons; ?> video</span>
+					<span><i class="fas fa-video"></i> <?php echo $total_lessons; ?> video</span>
 					<?php if ($is_enrolled): ?>
-						<span style="color:var(--success);">✅ Terdaftar</span>
+						<span style="color:var(--success);"><i class="fas fa-check-circle"></i> Terdaftar</span>
 					<?php endif; ?>
 				</div>
 				<?php if ($course['is_free_course'] == 1): ?>

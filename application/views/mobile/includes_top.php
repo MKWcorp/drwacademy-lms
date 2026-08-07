@@ -1,4 +1,6 @@
 
+<link rel="icon" type="image/png" href="<?php echo base_url('uploads/system/'.get_settings('favicon')); ?>" />
+
 <link href="<?php echo site_url('assets/playing-page/') ?>css/bootstrap.min.css" rel="stylesheet" />
 
 <!-- Animation CSS -->

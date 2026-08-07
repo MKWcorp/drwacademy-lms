@@ -60,9 +60,9 @@ if (isset($cert_data) && $cert_data != '') {
 	<div class="course-detail-info">
 		<h1 class="course-detail-title"><?php echo htmlspecialchars($course['title']); ?></h1>
 		<div class="course-detail-meta">
-			<span>📹 <?php echo $total_lessons; ?> materi</span>
+			<span><i class="fas fa-video"></i> <?php echo $total_lessons; ?> materi</span>
 			<?php if (!empty($course['level'])): ?>
-				<span>📊 <?php echo htmlspecialchars($course['level']); ?></span>
+				<span><i class="fas fa-signal"></i> <?php echo htmlspecialchars($course['level']); ?></span>
 			<?php endif; ?>
 		</div>
 		<?php if ($is_enrolled && $enroll_valid): ?>
